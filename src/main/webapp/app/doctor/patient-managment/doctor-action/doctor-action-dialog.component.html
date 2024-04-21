@@ -1,0 +1,106 @@
+<form name="editForm" (ngSubmit)="confirmAction()" [formGroup]="editForm">
+  <div class="modal-header">
+    <h4 class="modal-title">Handling patient status</h4>
+
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
+  </div>
+  <div class="modal-body">
+    <jhi-alert-error></jhi-alert-error>
+    <div class="form-group">
+      <label>Health status</label>
+      <dt><span>ID</span></dt>
+      <dd>{{ dailyHealthStatus!.id }}</dd>
+      <dt><span>Date</span></dt>
+      <dd>{{ dailyHealthStatus!.date | date: 'dd/MM/yy HH:mm' }}</dd>
+      <dt><span>Health status</span></dt>
+      <dd>{{ dailyHealthStatus!.healthStatus }}</dd>
+      <dt><span>Symptoms</span></dt>
+      <dd>{{ dailyHealthStatus!.symptoms }}</dd>
+      <dt *ngIf="dailyHealthStatus!.image && dailyHealthStatus!.image !== null"><span>Symptom photo</span></dt>
+      <div *ngIf="dailyHealthStatus!.image && dailyHealthStatus!.image !== null" style="max-height: 300px">
+        <img style="max-height: 150px" src="{{ dailyHealthStatus!.image }}&access_token={{ token }}" />
+      </div>
+      <dt><span>Note</span></dt>
+      <dd>{{ dailyHealthStatus!.notes }}</dd>
+    </div>
+    <div class="form-group" [hidden]="action && !action!.id">
+      <label jhiTranslate="global.field.id">ID</label>
+      <input type="text" class="form-control" name="id" formControlName="id" readonly />
+    </div>
+
+    <div class="form-group">
+      <label>Advice</label>
+      <textarea type="text" class="form-control" name="advise" formControlName="advise"> </textarea>
+      <div *ngIf="editForm.get('advise')!.invalid && (editForm.get('advise')!.dirty || editForm.get('advise')!.touched)">
+        <small class="form-text text-danger" *ngIf="editForm.get('advise')?.errors?.required" jhiTranslate="entity.validation.required">
+          This field is required.
+        </small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Note</label>
+      <textarea type="text" class="form-control" name="note" formControlName="notes"> </textarea>
+      <div *ngIf="editForm.get('notes')!.invalid && (editForm.get('notes')!.dirty || editForm.get('notes')!.touched)">
+        <small class="form-text text-danger" *ngIf="editForm.get('notes')?.errors?.required" jhiTranslate="entity.validation.required">
+          This field is required.
+        </small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Prescription</label>
+      <div formArrayName="medicines">
+        <div
+          [formGroupName]="i"
+          *ngFor="let medicine of medicineList.controls; let i = index"
+          style="border-bottom: 2px solid #3e8acc; padding-bottom: 5px"
+        >
+          <span>Medicine {{ i }}</span>
+          <ng-select (change)="updateMedicines($event, i)" formControlName="medicineId" bindValue="id" bindLabel="name">
+            <ng-option *ngFor="let medicine of medicines" [value]="medicine.id"
+              >{{ medicine.name! }} - {{ medicine.price! | currency: 'vnd':'symbol':'4.0-2' }}</ng-option
+            >
+          </ng-select>
+          <div>
+            <div class="form-group">
+              <label>Description:</label>
+              <textarea class="form-control" formControlName="description"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Number :</label>
+              <input (ngModelChange)="updateTotal()" class="form-control" type="number" formControlName="amount" />
+            </div>
+            <div class="form-group">
+              <label>Price :</label>
+              <input class="form-control ng-option-disabled" readonly formControlName="price" />
+            </div>
+            <div class="form-group">
+              <label>Amount :</label>
+              <span disabled type="number">{{ medicine.get('price')?.value * medicine.get('amount')?.value }}</span>
+            </div>
+          </div>
+          <button class="btn btn-danger" (click)="removeMedicine(i)">Remove</button>
+        </div>
+        <p>
+          <button class="btn btn-primary" type="button" (click)="addMedicines()">Add</button>
+          <span class="float-right"
+            >Total amount: <span class="font-weight-bold text-primary">{{ total | number: '1.0-0' }}</span></span
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <jhi-alert-error></jhi-alert-error>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+      <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+    </button>
+
+    <button [disabled]="editForm.invalid" type="submit" class="btn btn-info">
+      <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+    </button>
+  </div>
+</form>

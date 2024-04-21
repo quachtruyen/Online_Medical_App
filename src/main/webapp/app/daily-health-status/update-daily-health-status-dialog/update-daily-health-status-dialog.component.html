@@ -1,0 +1,72 @@
+<form name="editForm" (ngSubmit)="confirmHealthStatus()" [formGroup]="editForm">
+  <div class="modal-header">
+    <h4 class="modal-title">How do you feel today?</h4>
+
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
+  </div>
+  <div class="modal-body">
+    <jhi-alert-error></jhi-alert-error>
+    <div class="form-group">
+      <label>Status</label>
+      <ng-select formControlName="healthStatus">
+        <ng-option *ngFor="let status of statuses" [value]="status.status">{{ status.content }}</ng-option>
+      </ng-select>
+      <div *ngIf="editForm.get('healthStatus')!.invalid && (editForm.get('healthStatus')!.dirty || editForm.get('healthStatus')!.touched)">
+        <small
+          class="form-text text-danger"
+          *ngIf="editForm.get('healthStatus')?.errors?.required"
+          jhiTranslate="entity.validation.required"
+        >
+          This field is required.
+        </small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Note</label>
+      <textarea class="form-control" name="notes" formControlName="notes"></textarea>
+      <div *ngIf="editForm.get('notes')!.invalid && (editForm.get('notes')!.dirty || editForm.get('notes')!.touched)">
+        <small class="form-text text-danger" *ngIf="editForm.get('notes')?.errors?.required" jhiTranslate="entity.validation.required">
+          This field is required.
+        </small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Symptoms</label>
+      <input type="text" class="form-control" name="symptoms" formControlName="symptoms" />
+      <div *ngIf="editForm.get('symptoms')!.invalid && (editForm.get('symptoms')!.dirty || editForm.get('symptoms')!.touched)">
+        <small class="form-text text-danger" *ngIf="editForm.get('symptoms')?.errors?.required" jhiTranslate="entity.validation.required">
+          This field is required.
+        </small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Symptom photo (if)</label>
+
+      <input type="file" style="display: none" (change)="onFileSelected($event)" #fileUpload />
+
+      <div class="file-upload">
+        <button type="button" class="btn upload-btn" (click)="fileUpload.click()">
+          <fa-icon [icon]="faUpload"></fa-icon>
+        </button>
+
+        {{ fileName || 'No image file selected yet.' }}
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <jhi-alert-error></jhi-alert-error>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+      <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+    </button>
+
+    <button [disabled]="editForm.invalid" type="submit" class="btn btn-info">
+      <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+    </button>
+  </div>
+</form>

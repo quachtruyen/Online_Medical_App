@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="post">
+      <h2>
+        <span>Post number </span> [<strong>{{ post.id }}</strong
+        >]
+      </h2>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>{{ post.id }}</dd>
+
+        <dt><span>Created by</span></dt>
+        <dd>{{ post.createdBy }}</dd>
+
+        <dt><span>Category</span></dt>
+        <dd>
+          <div *ngFor="let category of post.categories">{{ category.id }} - {{ category.name }}</div>
+        </dd>
+
+        <dt><span>Title</span></dt>
+        <dd>{{ post.title }}</dd>
+
+        <dt><span>Content</span></dt>
+        <dd><div [innerHTML]="post.content"></div></dd>
+
+        <dt><span>Created at</span></dt>
+        <dd>{{ post.createdAt | date: 'dd/MM/yy HH:mm' }}</dd>
+
+        <dt>Status</dt>
+        <td *ngIf="post.published"><span class="btn text-success">Published</span></td>
+        <td *ngIf="!post.published"><span class="btn text-warning">Not released yet</span></td>
+      </dl>
+
+      <button type="submit" routerLink="../../" class="btn btn-info">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+</div>

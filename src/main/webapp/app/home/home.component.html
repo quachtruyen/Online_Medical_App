@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-md-3">
+    <h3>Category</h3>
+    <div *ngFor="let category of categories; let i = index">
+      <div
+        (click)="loadPostByCategoryId(category.id!)"
+        class="navbar navbar-light bg-light"
+        style="background-color: #b3d4fc !important; margin-bottom: 5px !important; cursor: pointer; border-radius: 5px"
+      >
+        {{ i + 1 }} - {{ category.name }}
+      </div>
+    </div>
+    <!--    <span class="hipster img-fluid rounded"></span>-->
+  </div>
+  <div class="col-md-9">
+    <h1 class="display-4"><span jhiTranslate="home.title">Welcome</span> Online Medical</h1>
+    <div [ngSwitch]="account !== null">
+      <div class="alert alert-success" *ngSwitchCase="true">
+        <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
+          >You are logged in as user "{{ account.login }}".</span
+        >
+      </div>
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <span>If you want</span>
+        <a class="alert-link" (click)="login()">login</a>
+      </div>
+
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <span>You don't have an account?</span>&nbsp;
+        <a class="alert-link" routerLink="account/register">Register a new account</a>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngFor="let post of posts; let i = index" class="col-md-6" style="padding: 5px">
+        <div style="border: 0.5px solid #3e8acc; padding: 3px; border-radius: 4px">
+          <img src="{{ post.imageUrl }}" />
+          <span class="img-fluid rounded" [className]="getByIndex(i)"></span>
+          <div>{{ post.title }}</div>
+          <div>{{ post.createdAt | date: 'dd/MM/yy HH:mm' }}</div>
+          <div>{{ post.createdBy }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

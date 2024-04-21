@@ -1,0 +1,128 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="dailyHealthStatus">
+      <h2>
+        <span> Health status </span> [<strong>{{ dailyHealthStatus.id }}</strong
+        >]
+      </h2>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ dailyHealthStatus.id }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ getStatus(dailyHealthStatus.healthStatus!) }}</span>
+        </dd>
+        <dt><span>Update time</span></dt>
+        <dd>
+          <span>{{ dailyHealthStatus.date | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+        </dd>
+        <dt><span>Symptom</span></dt>
+        <dd>
+          <span>{{ dailyHealthStatus.symptoms }}</span>
+        </dd>
+        <dt *ngIf="dailyHealthStatus.image && dailyHealthStatus.image !== null"><span> Symptom photo</span></dt>
+        <div *ngIf="dailyHealthStatus.image && dailyHealthStatus.image !== null" style="max-height: 300px">
+          <img style="max-height: 150px" src="{{ dailyHealthStatus.image }}&access_token={{ token }}" />
+        </div>
+
+        <dt><span>Note</span></dt>
+        <dd>
+          <span>{{ dailyHealthStatus.notes }}</span>
+        </dd>
+      </dl>
+
+      <div *ngIf="doctorAction">
+        <h3 style="border-top: 5px solid #5ca8e3">Assign doctor</h3>
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ doctorAction.id }}</span>
+        </dd>
+        <dt><span>Designated time</span></dt>
+        <dd>
+          <span>{{ doctorAction.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+        </dd>
+        <dt><span>Note</span></dt>
+        <dd>
+          <span>{{ doctorAction.note }}</span>
+        </dd>
+        <dt><span>Advise</span></dt>
+        <dd>
+          <span>{{ doctorAction.advise }}</span>
+        </dd>
+      </div>
+    </div>
+
+    <div *ngIf="prescription">
+      <h3 style="border-top: 5px solid #5ca8e3">Prescription</h3>
+      <dt><span>ID</span></dt>
+      <dd>
+        <span>{{ prescription.id }}</span>
+      </dd>
+      <dt><span>Prescription time</span></dt>
+      <dd>
+        <span>{{ prescription.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</span>
+      </dd>
+    </div>
+
+    <div *ngIf="medicines && medicines.length > 0">
+      <h4>List medicine</h4>
+      <div class="table-responsive">
+        <table class="table table-striped" aria-describedby="user-management-page-heading">
+          <thead>
+            <tr>
+              <th scope="col">
+                <span>ID</span>
+                <fa-icon icon="sort"></fa-icon>
+              </th>
+              <th scope="col">
+                <span>Medicine name</span>
+                <fa-icon icon="sort"></fa-icon>
+              </th>
+              <th scope="col">
+                <span>User manual</span>
+                <fa-icon icon="sort"></fa-icon>
+              </th>
+              <th scope="col">
+                <span>Origin</span>
+                <fa-icon icon="sort"></fa-icon>
+              </th>
+              <th scope="col">
+                <span>Element</span>
+                <fa-icon icon="sort"></fa-icon>
+              </th>
+              <th scope="col">
+                <span>Price</span>
+                <fa-icon icon="sort"></fa-icon>
+              </th>
+              <th scope="col">
+                <span>Amount</span>
+                <fa-icon icon="sort"></fa-icon>
+              </th>
+              <th scope="col">
+                <span>Into money</span>
+                <fa-icon icon="sort"></fa-icon>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="medicines">
+            <tr *ngFor="let medicine of medicines">
+              <td>{{ medicine!.medicine!.id! }}</td>
+              <td>{{ medicine!.medicine!.name! }}</td>
+              <td>{{ medicine!.medicine!.uses! }}</td>
+              <td>{{ medicine!.medicine!.origin! }}</td>
+              <td>{{ medicine!.medicine!.element! }}</td>
+              <td>{{ medicine!.price! | number: '1.0-0' }}</td>
+              <td>{{ medicine!.amount! }}</td>
+              <td>{{ medicine!.amount! * medicine!.price! | number: '1.0-0' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <button type="submit" (click)="back()" class="btn btn-info"><fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span></button>
+  </div>
+</div>

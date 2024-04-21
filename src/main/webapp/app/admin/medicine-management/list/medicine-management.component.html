@@ -1,0 +1,115 @@
+<div>
+  <h2>
+    <span id="user-management-page-heading" data-cy="userManagementPageHeading">Medicine</span>
+
+    <form name="editForm" role="form" novalidate [formGroup]="editForm">
+      <div class="form-group">
+        <input class="form-control" name="search" formControlName="search" />
+        <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+          <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+          <span jhiTranslate="userManagement.home.search">Search</span>
+        </button>
+        <button class="btn btn-danger mr-2" (click)="clear()" [disabled]="isLoading">
+          <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+          <span jhiTranslate="userManagement.home.clear">Clear</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="userManagement.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']"><fa-icon icon="plus"></fa-icon> <span>Create</span></button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="table-responsive" *ngIf="medicines">
+    <table class="table table-striped" aria-describedby="user-management-page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="transition.bind(this)">
+          <th scope="col" jhiSortBy="id">
+            <span jhiTranslate="global.field.id">ID</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th>Medicine name</th>
+          <th scope="col">
+            <span>Origin</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col">
+            <span>Element</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col">
+            <span>Uses</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col">
+            <span>Price</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col">
+            <span>Status</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngIf="medicines">
+        <tr *ngFor="let medicine of medicines; trackBy: trackIdentity">
+          <td>
+            <a [routerLink]="['./', medicine.id, 'view']">{{ medicine.id }}</a>
+          </td>
+          <td>{{ medicine.name }}</td>
+          <td>{{ medicine.origin }}</td>
+          <td>{{ medicine.element }}</td>
+          <td>{{ medicine.uses }}</td>
+          <td>{{ medicine.price }}</td>
+          <td class="text-danger" *ngIf="medicine.deleted">Deleted</td>
+          <td class="text-success" *ngIf="!medicine.deleted">Available</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['./', medicine.id, 'view']" class="btn btn-info btn-sm">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['./', medicine.id, 'edit']" queryParamsHandling="merge" class="btn btn-primary btn-sm">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="button" (click)="deleteMedicine(medicine)" class="btn btn-danger btn-sm">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="medicines">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="transition()"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

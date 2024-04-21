@@ -1,0 +1,154 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="user">
+      <h2>
+        <span>User</span> [<strong>{{ user.login }}</strong
+        >]
+      </h2>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Username</span></dt>
+        <dd>
+          <span>{{ user.login }}</span>
+          <!--          <span *ngIf="user.activated" class="badge badge-success">Kích hoạt</span>-->
+          <!--          <span *ngIf="!user.activated" class="badge badge-danger">Khóa</span>-->
+        </dd>
+
+        <dt><span>First name</span></dt>
+        <dd>{{ user.firstName }}</dd>
+
+        <dt><span>Last name</span></dt>
+        <dd>{{ user.lastName }}</dd>
+
+        <dt><span>Email</span></dt>
+        <dd>{{ user.email }}</dd>
+
+        <dt><span>Created by</span></dt>
+        <dd>{{ user.createdBy }}</dd>
+
+        <dt><span>Created at</span></dt>
+        <dd>{{ user.createdDate | date: 'dd/MM/yy HH:mm' }}</dd>
+
+        <dt><span>Last modified by</span></dt>
+        <dd>{{ user.lastModifiedBy }}</dd>
+
+        <dt><span>Last modified date</span></dt>
+        <dd>{{ user.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</dd>
+
+        <dt><span>Role</span></dt>
+        <dd>
+          <ul class="list-unstyled">
+            <li *ngFor="let authority of user.authorities">
+              <span class="badge badge-info">{{ authority }}</span>
+            </li>
+          </ul>
+        </dd>
+      </dl>
+
+      <dl *ngIf="user.authorities && user.authorities.includes('ROLE_DOCTOR')">
+        <dt><span>Position</span></dt>
+        <dd>{{ user.doctor!.position }}</dd>
+
+        <dt><span>Hospital</span></dt>
+        <dd>{{ user.doctor!.hospital }}</dd>
+
+        <dt><span>Specialize</span></dt>
+        <dd>{{ user.doctor!.specialize }}</dd>
+      </dl>
+
+      <dl style="border-top: 1px solid #5ca8e3" *ngIf="user.authorities && user.authorities.includes('ROLE_PATIENT')">
+        <h3>Patient information</h3>
+        <dt><span>Address</span></dt>
+        <dd>{{ user.patient!.address }}</dd>
+
+        <dt><span>Health status</span></dt>
+        <dd>{{ user.patient!.healthStatus }}</dd>
+
+        <dt><span>Disease symptoms</span></dt>
+        <dd>{{ user.patient!.diseaseSymptoms }}</dd>
+
+        <dt><span>Prescription</span></dt>
+        <dd>{{ user.patient!.prescription }}</dd>
+
+        <dt><span>Care status</span></dt>
+        <dd class="text-success" *ngIf="user.assignment">Assigned</dd>
+        <!--        <button *ngIf="user.assignment" type="button" class="btn btn-success btn-sm" (click)="deleteAssignment(user.assignment!.id!)">-->
+        <!--          <fa-icon icon="times"></fa-icon>-->
+        <!--          <span class="d-none d-md-inline">Xóa chỉ định</span>-->
+        <!--        </button>-->
+        <dd class="btn btn-danger btn-sm" *ngIf="!user.assignment">Not specified yet</dd>
+        <!--        <button *ngIf="!user.assignment" type="button" (click)="assignUser(user)" class="btn btn-warning btn-sm">-->
+        <!--          <fa-icon icon="times"></fa-icon>-->
+        <!--          <span class="d-none d-md-inline">Chỉ định</span>-->
+        <!--        </button>-->
+
+        <dt><span>Current medical condition</span></dt>
+        <dd class="text-primary" *ngIf="user.assignment!.patientStatus === 'FINISH'">Has been cured</dd>
+        <dd class="text-warning" *ngIf="user.assignment!.patientStatus !== 'FINISH'">Being taken care of</dd>
+
+        <div style="border-top: 1px solid #5ca8e3" *ngIf="user.doctor">
+          <h3>Doctor information</h3>
+          <dt><span>Position</span></dt>
+          <dd>{{ user.doctor!.position }}</dd>
+
+          <dt><span>Hospital</span></dt>
+          <dd>{{ user.doctor!.hospital }}</dd>
+
+          <dt><span>Specialize</span></dt>
+          <dd>{{ user.doctor!.specialize }}</dd>
+          <br />
+        </div>
+
+        <h3 style="border-top: 1px solid #5ca8e3">Medical history</h3>
+        <div class="table-responsive" *ngIf="dailyHealthStatusList">
+          <table class="table table-striped" aria-describedby="user-management-page-heading">
+            <thead>
+              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="transition.bind(this)">
+                <th scope="col" jhiSortBy="id">
+                  <span>ID</span>
+                  <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="lastName">
+                  <span>Date</span>
+                </th>
+                <th scope="col" jhiSortBy="firstName">
+                  <span>Health status</span>
+                </th>
+                <th scope="col" jhiSortBy="email">
+                  <span>Disease symptoms</span>
+                </th>
+                <th scope="col" jhiSortBy="phoneNumber">
+                  <span>Note</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngIf="dailyHealthStatusList">
+              <tr *ngFor="let item of dailyHealthStatusList; trackBy: trackIdentity">
+                <td>
+                  <a [routerLink]="['./', item.id, 'view']">{{ item.id }}</a>
+                </td>
+                <td>{{ item.date | date: 'dd/MM/yy HH:mm' }}</td>
+                <td>{{ item.healthStatus }}</td>
+                <td>{{ item.symptoms }}</td>
+                <td>{{ item.notes }}</td>
+                <td>{{ item.createdAt | date: 'dd/MM/yy HH:mm' }}</td>
+                <!--                <td class="text-right">-->
+                <!--                  <div class="btn-group">-->
+                <!--                    <button type="submit" [routerLink]="['./', item.id, 'view']" class="btn btn-info btn-sm">-->
+                <!--                      <fa-icon icon="eye"></fa-icon>-->
+                <!--                      <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Xem</span>-->
+                <!--                    </button>-->
+                <!--                  </div>-->
+                <!--                </td>-->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </dl>
+
+      <button type="submit" routerLink="../../" class="btn btn-info">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+</div>

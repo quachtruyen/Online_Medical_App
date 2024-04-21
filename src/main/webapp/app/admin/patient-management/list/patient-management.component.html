@@ -1,0 +1,150 @@
+<div>
+  <h2>
+    <span id="user-management-page-heading" data-cy="userManagementPageHeading">Patient account</span>
+
+    <form name="editForm" role="form" novalidate [formGroup]="editForm">
+      <div class="form-inline">
+        <h5 class="mr-1">Health status</h5>
+        <select class="form-control mr-2" name="authority" formControlName="status">
+          <option *ngFor="let status of healthStatuses" [value]="status">{{ status }}</option>
+        </select>
+
+        <h5 class="mr-1">Status</h5>
+
+        <select class="form-control mr-2" name="authority" formControlName="patientStatus">
+          <option *ngFor="let patientStatus of patientStatus" [value]="patientStatus">{{ patientStatus }}</option>
+        </select>
+        <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+          <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+          <span>Search</span>
+        </button>
+        <button class="btn btn-danger mr-2" (click)="clear()" [disabled]="isLoading">
+          <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+          <span>Cancel</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh</span>
+      </button>
+
+      <!-- <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
+        <fa-icon icon="plus"></fa-icon> <span jhiTranslate="userManagement.home.createLabel">Create a new User</span>
+      </button> -->
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="table-responsive" *ngIf="users">
+    <table class="table table-striped" aria-describedby="user-management-page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="transition.bind(this)">
+          <th scope="col" jhiSortBy="id">
+            <span>ID</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastName">
+            <span>Last name</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="firstName">
+            <span>First name</span>
+
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="email">
+            <span>Email</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="phoneNumber">
+            <span>Phone number</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="address">
+            <span>Address</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="patientStatus">
+            <span>Status</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="healthStatus">
+            <span>Health status</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="healthStatus">
+            <span>Appointed time</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngIf="users">
+        <tr *ngFor="let user of users; trackBy: trackIdentity">
+          <td>
+            <a [routerLink]="['./', user.login, 'view']">{{ user.id }}</a>
+          </td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phoneNumber }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.patientStatus }}</td>
+          <td>{{ user.healthStatus }}</td>
+          <td *ngIf="user.patientStatus === 'ACCEPT'">{{ user.assignment!.assignDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <!--            <button class="btn btn-danger btn-sm" *ngIf="!user.activated" jhiTranslate="userManagement.deactivated">Deactivated</button>-->
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <span *ngIf="user.patientStatus === 'ACCEPT'" class="d-none d-md-inline">Assigned</span>
+              <button
+                *ngIf="user.patientStatus === 'ACCEPT'"
+                type="button"
+                class="btn btn-danger btn-sm"
+                (click)="deleteAssignment(user.assignment?.id!)"
+              >
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">UnAssign</span>
+              </button>
+              <button *ngIf="user.patientStatus === null" type="button" (click)="assignUser(user)" class="btn btn-warning btn-sm">
+                <fa-icon [icon]="faAssign"></fa-icon>
+                <span class="d-none d-md-inline">Assign</span>
+              </button>
+            </div>
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/admin/user-management', user.login, 'view']" class="btn btn-info btn-sm">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+            </div>
+          </td>
+          <td class="text-right"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="users">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="transition()"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+# ===================================================================
+# Spring Boot configuration for the "heroku" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+eureka:
+  instance:
+    hostname: f-0-at-home.herokuapp.com
+    non-secure-port: 80
+    prefer-ip-address: false
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://mysql-94245-0.cloudclusters.net:18848/F0AtHome?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: admin
+    password: eV0B4jX6
+    hikari:
+      maximumPoolSize: 8
+  mail:
+    host: smtp.mailgun.org
+    port: 587
+    username: postmaster@sandbox92c8cc43affd468b933181671527d485.mailgun.org
+    password: 941f472f00f6dc9ce0f8db68ca39e021-77985560-e216546b
+server:
+  port: ${PORT:8080}
+jhipster:
+  mail: # specific JHipster mail property, for standard properties see MailProperties
+    base-url: https://f-0-at-home.herokuapp.com # Modify according to your server's URL
+application:
+  image-url: 'https://f-0-at-home.herokuapp.com/api/file'

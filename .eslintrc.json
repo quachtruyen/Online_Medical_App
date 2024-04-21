@@ -1,0 +1,98 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@angular-eslint/eslint-plugin", "@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@angular-eslint/recommended",
+    "prettier",
+    "eslint-config-prettier"
+  ],
+  "env": {
+    "browser": false,
+    "es6": false,
+    "commonjs": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "@angular-eslint/component-selector": [
+      "warn",
+      {
+        "type": "element",
+        "prefix": "jhi",
+        "style": "kebab-case"
+      }
+    ],
+    "@angular-eslint/directive-selector": [
+      "warn",
+      {
+        "type": "attribute",
+        "prefix": "jhi",
+        "style": "camelCase"
+      }
+    ],
+    "@angular-eslint/relative-url-prefix": "warn",
+    "@typescript-eslint/ban-types": [
+      "warn",
+      {
+        "extendDefaults": true,
+        "types": {
+          "{}": false
+        }
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/member-ordering": [
+      "warn",
+      {
+        "default": [
+          "public-static-field",
+          "protected-static-field",
+          "private-static-field",
+          "public-instance-field",
+          "protected-instance-field",
+          "private-instance-field",
+          "constructor",
+          "public-static-method",
+          "protected-static-method",
+          "private-static-method",
+          "public-instance-method",
+          "protected-instance-method",
+          "private-instance-method"
+        ]
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-parameter-properties": ["warn", { "allows": ["public", "private", "protected"] }],
+    "@typescript-eslint/no-shadow": ["warn"],
+    "@typescript-eslint/no-unnecessary-condition": "warn",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "warn",
+    "@typescript-eslint/prefer-optional-chain": "warn",
+    "@typescript-eslint/unbound-method": "off",
+    "arrow-body-style": "warn",
+    "curly": "warn",
+    "eqeqeq": ["warn", "always", { "null": "ignore" }],
+    "guard-for-in": "warn",
+    "no-bitwise": "warn",
+    "no-caller": "warn",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-eval": "warn",
+    "no-labels": "warn",
+    "no-new": "warn",
+    "no-new-wrappers": "warn",
+    "object-shorthand": ["warn", "always", { "avoidExplicitReturnArrows": true }],
+    "radix": "warn",
+    "spaced-comment": ["warn", "always"]
+  }
+}

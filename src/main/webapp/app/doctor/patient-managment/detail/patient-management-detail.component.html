@@ -1,0 +1,143 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="user">
+      <h2>
+        <span>Account</span> [<strong>{{ user.login }}</strong
+        >]
+      </h2>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Status account</span></dt>
+        <dd>
+          <span *ngIf="user.activated" class="badge badge-success">Activated</span>
+          <span *ngIf="!user.activated" class="badge badge-danger">Deactivated</span>
+        </dd>
+
+        <dt><span>First name</span></dt>
+        <dd>{{ user.firstName }}</dd>
+
+        <dt><span>Last name</span></dt>
+        <dd>{{ user.lastName }}</dd>
+
+        <dt><span>Email</span></dt>
+        <dd>{{ user.email }}</dd>
+
+        <dt><span>Phone number</span></dt>
+        <dd>{{ user.phoneNumber }}</dd>
+
+        <dt><span>Address</span></dt>
+        <dd>{{ user.address }}</dd>
+
+        <dt *ngIf="user.imageCertificate && user.imageCertificate !== null"><span>Certificate of Immunization</span></dt>
+        <dd *ngIf="user.imageCertificate && user.imageCertificate !== null" style="max-height: 300px">
+          <img style="max-height: 150px" src="{{ user.imageCertificate }}&access_token={{ token }}" />
+        </dd>
+
+        <dt><span>Health status</span></dt>
+        <dd>{{ user.healthStatus }}</dd>
+
+        <dt><span>Sick condition</span></dt>
+        <dd *ngIf="user.assignment && user.assignment.patientStatus === 'ACCEPT'">Being sick</dd>
+        <dd *ngIf="user.assignment && user.assignment.patientStatus === 'FINISH'">Got cured</dd>
+      </dl>
+      <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <dt><span>Care status</span></dt>
+        <dd class="text-success" *ngIf="user.assignment">Assigned</dd>
+        <button *ngIf="user.assignment" type="button" class="btn btn-success btn-sm" (click)="deleteAssignment(user.assignment!.id!)">
+          <fa-icon icon="times"></fa-icon>
+          <span class="d-none d-md-inline">Clear designation</span>
+        </button>
+        <dd class="btn btn-danger btn-sm" *ngIf="!user.assignment">Not specified yet</dd>
+        <button *ngIf="!user.assignment" type="button" (click)="assignUser(user)" class="btn btn-warning btn-sm">
+          <fa-icon icon="times"></fa-icon>
+          <span class="d-none d-md-inline">Assign</span>
+        </button>
+      </div>
+      <div *jhiHasAnyAuthority="'ROLE_DOCTOR'">
+        <button
+          *ngIf="user.assignment && user.assignment.patientStatus === 'ACCEPT'"
+          type="button"
+          class="btn btn-success btn-sm"
+          (click)="confirmFinish(user.assignment!.id!)"
+        >
+          <fa-icon [icon]="window"></fa-icon>
+          <span class="d-none d-md-inline">Confirmed cure</span>
+        </button>
+      </div>
+
+      <h3>Medical history</h3>
+      <div class="table-responsive" *ngIf="dailyHealthStatusList">
+        <table class="table table-striped" aria-describedby="user-management-page-heading">
+          <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="transition.bind(this)">
+              <th scope="col" jhiSortBy="id">
+                <span>ID</span>
+              </th>
+              <th scope="col" jhiSortBy="lastName">
+                <span>Date</span>
+              </th>
+              <th scope="col" jhiSortBy="firstName">
+                <span>Health status</span>
+              </th>
+              <th scope="col" jhiSortBy="email">
+                <span>Symptoms</span>
+              </th>
+              <th scope="col" jhiSortBy="phoneNumber">
+                <span>Note</span>
+              </th>
+              <th scope="col">
+                <span>Status</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="dailyHealthStatusList">
+            <tr *ngFor="let item of dailyHealthStatusList; trackBy: trackIdentity">
+              <td>
+                <a [routerLink]="['./', item.id, 'view']">{{ item.id }}</a>
+              </td>
+              <td>{{ item.date | date: 'dd/MM/yy HH:mm' }}</td>
+              <td>{{ item.healthStatus }}</td>
+              <td>{{ item.symptoms }}</td>
+              <td>{{ item.notes }}</td>
+              <td *ngIf="item.doctorActionId"><span class="text-success">Has been processed</span></td>
+              <td *ngIf="item.doctorActionId === null"><span class="text-danger">Not processed yet</span></td>
+              <td>{{ item.createdAt | date: 'dd/MM/yy HH:mm' }}</td>
+              <td class="text-right">
+                <div class="btn-group">
+                  <button type="submit" [routerLink]="['/daily-health-status/', item.id, 'view']" class="btn btn-info btn-sm">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">View</span>
+                  </button>
+                  <span *ngIf="user.assignment && user.assignment!.patientStatus! !== 'FINISH'">
+                    <button *jhiHasAnyAuthority="'ROLE_DOCTOR'" type="submit" (click)="openAction(item)" class="btn btn-danger btn-sm">
+                      <fa-icon icon="book"></fa-icon>
+                      <span class="d-none d-md-inline">Action</span>
+                    </button>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="dailyHealthStatusList">
+        <div class="row justify-content-center">
+          <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+          <ngb-pagination
+            [collectionSize]="totalItems"
+            [(page)]="page"
+            [pageSize]="itemsPerPage"
+            [maxSize]="5"
+            [rotate]="true"
+            [boundaryLinks]="true"
+            (pageChange)="transition()"
+          ></ngb-pagination>
+        </div>
+      </div>
+      <button type="submit" (click)="back()" class="btn btn-info"><fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span></button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,145 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="user">
+      <h2>
+        <span jhiTranslate="userManagement.detail.title">User</span> [<strong>{{ user.login }}</strong
+        >]
+      </h2>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="userManagement.login">Login</span></dt>
+        <dd>
+          <span>{{ user.login }}</span>
+          <span *ngIf="user.activated" class="badge badge-success" jhiTranslate="userManagement.activated">Activated</span>
+          <span *ngIf="!user.activated" class="badge badge-danger" jhiTranslate="userManagement.deactivated">Deactivated</span>
+        </dd>
+
+        <dt><span jhiTranslate="userManagement.firstName">First Name</span></dt>
+        <dd>{{ user.firstName }}</dd>
+
+        <dt><span jhiTranslate="userManagement.lastName">Last Name</span></dt>
+        <dd>{{ user.lastName }}</dd>
+
+        <dt><span jhiTranslate="userManagement.email">Email</span></dt>
+        <dd>{{ user.email }}</dd>
+
+        <dt><span jhiTranslate="userManagement.langKey">Lang Key</span></dt>
+        <dd>{{ user.langKey }}</dd>
+
+        <dt><span jhiTranslate="userManagement.createdBy">Created By</span></dt>
+        <dd>{{ user.createdBy }}</dd>
+
+        <dt><span jhiTranslate="userManagement.createdDate">Created Date</span></dt>
+        <dd>{{ user.createdDate | date: 'dd/MM/yy HH:mm' }}</dd>
+
+        <dt><span jhiTranslate="userManagement.lastModifiedBy">Last Modified By</span></dt>
+        <dd>{{ user.lastModifiedBy }}</dd>
+
+        <dt><span jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</span></dt>
+        <dd>{{ user.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</dd>
+
+        <dt><span jhiTranslate="userManagement.profiles">Profiles</span></dt>
+        <dd>
+          <ul class="list-unstyled">
+            <li *ngFor="let authority of user.authorities">
+              <span class="badge badge-info">{{ authority }}</span>
+            </li>
+          </ul>
+        </dd>
+      </dl>
+      <dl *ngIf="user.authorities && user.authorities.includes('ROLE_DOCTOR')">
+        <dt><span jhiTranslate="userManagement.position">Position</span></dt>
+        <dd>{{ user.doctor!.position }}</dd>
+
+        <dt><span jhiTranslate="userManagement.hospital">Hospital</span></dt>
+        <dd>{{ user.doctor!.hospital }}</dd>
+
+        <dt><span jhiTranslate="userManagement.specialize">Specialize</span></dt>
+        <dd>{{ user.doctor!.specialize }}</dd>
+      </dl>
+
+      <dl *ngIf="user.authorities && user.authorities.includes('ROLE_PATIENT')">
+        <dt><span>Address</span></dt>
+        <dd>{{ user.address }}</dd>
+
+        <dt><span>Health status</span></dt>
+        <dd>{{ user.healthStatus }}</dd>
+
+        <dt><span>Disease Symptoms</span></dt>
+        <dd>{{ user.diseaseSymptoms }}</dd>
+
+        <dt><span>Prescription</span></dt>
+        <dd>{{ user.prescription }}</dd>
+        <dt><span>Care status</span></dt>
+        <dd class="btn btn-success btn-sm" *ngIf="user.assignment">Assigned</dd>
+        <button
+          *ngIf="user.assignment"
+          type="button"
+          disabled
+          class="btn btn-success btn-sm"
+          (click)="deleteAssignment(user.assignment!.id!)"
+        >
+          <fa-icon icon="times"></fa-icon>
+          <span class="d-none d-md-inline">Clear designation</span>
+        </button>
+        <dd class="btn btn-danger btn-sm" *ngIf="!user.assignment">Not specified yet</dd>
+        <button *ngIf="!user.assignment" type="button" (click)="assignUser(user)" class="btn btn-warning btn-sm">
+          <fa-icon icon="times"></fa-icon>
+          <span class="d-none d-md-inline">Assign</span>
+        </button>
+
+        <h3>Medical history</h3>
+        <div class="table-responsive" *ngIf="dailyHealthStatusList">
+          <table class="table table-striped" aria-describedby="user-management-page-heading">
+            <thead>
+              <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="transition.bind(this)">
+                <th scope="col" jhiSortBy="id">
+                  <span>ID</span>
+                  <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="lastName">
+                  <span>Last name</span>
+                  <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="firstName">
+                  <span>First name</span>
+                  <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="email">
+                  <span>Email</span>
+                  <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col">
+                  <span>Phone number</span>
+                  <fa-icon icon="sort"></fa-icon>
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngIf="dailyHealthStatusList">
+              <tr *ngFor="let item of dailyHealthStatusList; trackBy: trackIdentity">
+                <td>
+                  <a [routerLink]="['./', item.id, 'view']">{{ item.id }}</a>
+                </td>
+                <td>{{ item.date | date: 'dd/MM/yy HH:mm' }}</td>
+                <td>{{ item.healthStatus }}</td>
+                <td>{{ item.symptoms }}</td>
+                <td>{{ item.notes }}</td>
+                <td>{{ item.createdAt | date: 'dd/MM/yy HH:mm' }}</td>
+                <td class="text-right">
+                  <div class="btn-group">
+                    <button type="submit" [routerLink]="['./', item.id, 'view']" class="btn btn-info btn-sm">
+                      <fa-icon icon="eye"></fa-icon>
+                      <span class="d-none d-md-inline">View</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </dl>
+
+      <button type="submit" (click)="back()" class="btn btn-info"><fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span></button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="myUserLabel">Create or Edit Medicine</h2>
+
+      <div *ngIf="medicine">
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="!medicine.id">
+          <label>ID</label>
+          <input type="text" class="form-control" name="id" formControlName="id" readonly />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label">Medicine name</label>
+          <input type="text" class="form-control" name="name" formControlName="name" />
+          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Medicine image</label>
+          <input type="file" style="display: none" (change)="onFileSelected($event)" #fileUpload />
+
+          <div class="file-upload">
+            <button type="button" class="btn upload-btn" (click)="fileUpload.click()">
+              <fa-icon [icon]="faUpload"></fa-icon>
+            </button>
+
+            {{ fileName || 'No image file selected yet.' }}
+          </div>
+
+          <div *ngIf="medicine && medicine.id" style="max-height: 300px">
+            <img style="max-height: 150px" src="{{ medicine.image }}&access_token={{ token }}" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label">Origin</label>
+          <input type="text" class="form-control" name="origin" formControlName="origin" />
+          <div *ngIf="editForm.get('origin')!.invalid && (editForm.get('origin')!.dirty || editForm.get('origin')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('origin')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label">Element</label>
+          <input type="text" class="form-control" name="element" formControlName="element" />
+          <div *ngIf="editForm.get('element')!.invalid && (editForm.get('element')!.dirty || editForm.get('element')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('element')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label">Uses</label>
+          <input type="text" class="form-control" name="uses" formControlName="uses" />
+          <div *ngIf="editForm.get('uses')!.invalid && (editForm.get('uses')!.dirty || editForm.get('uses')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('uses')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label">Price</label>
+          <input type="number" class="form-control" name="price" formControlName="price" />
+          <div *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('price')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div *ngIf="medicine">
+          <button type="button" class="btn btn-secondary" (click)="previousState()">
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+          </button>
+
+          <button type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

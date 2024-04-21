@@ -1,0 +1,112 @@
+/* ==========================================================================
+Main page styles
+========================================================================== */
+
+.hipster {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/VNniemtinchienthang.png') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster1 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/5k.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster2 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/5T.jpeg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster3 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/F0-can-lam-hang-ngay.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster4 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/VNlacquanquyetthangdaidich.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster5 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/VNlacquanquyetthangdaidich.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster6 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/VNlacquanquyetthangdaidich.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster7 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/VNlacquanquyetthangdaidich.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster8 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/VNlacquanquyetthangdaidich.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster9 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/VNlacquanquyetthangdaidich.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster10 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/VNlacquanquyetthangdaidich.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+.hipster11 {
+  display: inline-block;
+  width: 100%;
+  height: 497px;
+  background: url('../../content/images/VNlacquanquyetthangdaidich.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+/* wait autoprefixer update to allow simple generation of high pixel density media query */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (-moz-min-device-pixel-ratio: 2),
+  only screen and (-o-min-device-pixel-ratio: 2/1),
+  only screen and (min-resolution: 192dpi),
+  only screen and (min-resolution: 2dppx) {
+  .hipster {
+    background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
+    background-size: contain;
+  }
+}

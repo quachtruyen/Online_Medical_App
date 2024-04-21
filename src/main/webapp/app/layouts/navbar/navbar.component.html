@@ -1,0 +1,283 @@
+<nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-dark">
+  <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
+    <span class="logo-img"></span>
+    <span jhiTranslate="global.title" class="navbar-title">F0AtHome</span>
+    <span class="navbar-version">{{ version }}</span>
+  </a>
+  <a
+    class="navbar-toggler d-lg-none"
+    href="javascript:void(0);"
+    data-toggle="collapse"
+    data-target="#navbarResponsive"
+    aria-controls="navbarResponsive"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+    (click)="toggleNavbar()"
+  >
+    <fa-icon icon="bars"></fa-icon>
+  </a>
+  <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
+    <ul class="navbar-nav ml-auto">
+      <!-- <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+          <span>
+            <fa-icon icon="home"></fa-icon>
+            <span>Trang chủ</span>
+          </span>
+        </a>
+      </li> -->
+      <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+      <li
+        *ngSwitchCase="true"
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      ></li>
+      <li
+        *jhiHasAnyAuthority="'ROLE_ADMIN'"
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu" data-cy="adminMenu">
+          <span>
+            <fa-icon icon="users-cog"></fa-icon>
+            <span jhiTranslate="global.menu.manage">Manage</span>
+          </span>
+        </a>
+        <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
+          <li>
+            <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.accountManagement">Account management</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="admin/patient-management" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon [icon]="fabook" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.patientAccountManagement">Patient account management</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="admin/post-management" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon [icon]="bbbb" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.postManagement">Post management</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="admin/category-management" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.categoryManagement">Category management</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="admin/medicine-management" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.medicineManagement">Medicine management</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li
+        *jhiHasAnyAuthority="'ROLE_DOCTOR'"
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="doctor-menu" data-cy="doctorMenu">
+          <span>
+            <fa-icon icon="users-cog"></fa-icon>
+            <span jhiTranslate="global.menu.manage">Management</span>
+          </span>
+        </a>
+        <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="doctor-menu">
+          <li>
+            <a class="dropdown-item" routerLink="/doctor/patient-management" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.patientManagement">Patient management</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" *ngIf="languages && languages.length > 1">
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown">
+          <span>
+            <fa-icon icon="flag"></fa-icon>
+            <span jhiTranslate="global.menu.language">Language</span>
+          </span>
+        </a>
+        <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="languagesnavBarDropdown">
+          <li *ngFor="let language of languages">
+            <a
+              class="dropdown-item"
+              [jhiActiveMenu]="language"
+              href="javascript:void(0);"
+              (click)="changeLanguage(language); collapseNavbar()"
+              >{{ language | findLanguageFromKey }}</a
+            >
+          </li>
+        </ul>
+      </li>
+
+      <li
+        (click)="updateHealthStatus()"
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        *jhiHasAnyAuthority="'ROLE_PATIENT'"
+      >
+        <div class="nav-link" style="cursor: pointer" id="1languagesnavBarDropdown">
+          <span>
+            <fa-icon icon="book"></fa-icon>
+            <span jhiTranslate="global.menu.updateHealthStatus">Update health status</span>
+          </span>
+        </div>
+      </li>
+      <li
+        *ngSwitchCase="true"
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="notification-menu" data-cy="accountMenu">
+          <span>
+            <fa-icon icon="bell"></fa-icon>
+            <span jhiTranslate="global.menu.notification">Notification</span>
+            <span *ngIf="totalUnread > 0">( {{ totalUnread }} unread )</span>
+          </span>
+        </a>
+        <ul
+          class="dropdown-menu"
+          ngbDropdownMenu
+          aria-labelledby="account-menu"
+          style="min-width: 20em !important; padding: 1em !important; position: absolute; max-height: 500px; overflow: scroll"
+        >
+          <button [ngClass]="this.currentStatus === '' ? 'btn-primary' : ''" class="btn" (click)="changeStatus('')">All</button>
+          <button [ngClass]="this.currentStatus === 'unread' ? 'btn-primary' : ''" class="btn" (click)="changeStatus('unread')">
+            Unread ({{ totalUnread }})
+          </button>
+          <button class="btn btn-dark float-right" (click)="seeAll()">Read all</button>
+          <li
+            (click)="seeOne(notification)"
+            *ngFor="let notification of notifications"
+            [ngClass]="notification.status === 'unread' ? 'unread-notification' : ''"
+            style="padding-top: 1em; margin-bottom: 3px; cursor: pointer; border-top: 1px solid #5ca8e3"
+          >
+            <div data-cy="settings">
+              <span class="font-weight-bold text-primary">{{ notification.title }}</span>
+              <div>{{ notification.content }}</div>
+              <div class="font-weight-bold">Time: {{ notification.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}</div>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li
+        *ngSwitchCase="true"
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="message-menu" data-cy="accountMenu">
+          <span>
+            <fa-icon icon="comment"></fa-icon>
+            <span jhiTranslate="global.menu.message">Message</span>
+            <span *ngIf="totalUnread > 0">( {{ totalUnread }} unread )</span>
+          </span>
+        </a>
+        <ul
+          class="dropdown-menu"
+          ngbDropdownMenu
+          aria-labelledby="account-menu"
+          style="min-width: 20em !important; padding: 1em !important; position: absolute; max-height: 500px; overflow: scroll"
+        >
+          <button [ngClass]="this.currentStatus === '' ? 'btn-primary' : ''" class="btn" (click)="changeStatus('')">All</button>
+          <button [ngClass]="this.currentStatus === 'unread' ? 'btn-primary' : ''" class="btn" (click)="changeStatus('unread')">
+            Unread ({{ totalUnread }})
+          </button>
+          <button class="btn btn-dark float-right" (click)="seeAll()">Read all</button>
+          <li
+            (click)="seeOne(notification)"
+            *ngFor="let notification of notifications"
+            [ngClass]="notification.status === 'unread' ? 'unread-notification' : ''"
+            class="notification_style"
+          >
+            <div data-cy="settings">
+              <span class="font-weight-bold text-primary">bệnh nhân</span>
+              <div class="content_group_chat">{{ notification.content }}</div>
+              <div class="message_time font-weight-light">5 phút</div>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
+          <span *ngIf="!account?.imageUrl">
+            <fa-icon icon="user"></fa-icon>
+            <span>Account</span>
+          </span>
+          <span *ngIf="account?.imageUrl">
+            <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
+          </span>
+        </a>
+        <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
+          <li *ngSwitchCase="true">
+            <a class="dropdown-item" routerLink="account/settings" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
+              <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.profile">Profile</span>
+            </a>
+          </li>
+
+          <li *ngSwitchCase="true">
+            <a
+              class="dropdown-item"
+              routerLink="account/password"
+              routerLinkActive="active"
+              (click)="collapseNavbar()"
+              data-cy="passwordItem"
+            >
+              <fa-icon icon="lock" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.password">Password</span>
+            </a>
+          </li>
+
+          <li *ngSwitchCase="true">
+            <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
+              <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
+              <span>Logout</span>
+            </a>
+          </li>
+          <li *ngSwitchCase="false">
+            <a class="dropdown-item" (click)="login()" id="login" data-cy="login">
+              <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
+              <span>Login</span>
+            </a>
+          </li>
+          <li *ngSwitchCase="false">
+            <a class="dropdown-item" routerLink="account/register" routerLinkActive="active" (click)="collapseNavbar()" data-cy="register">
+              <fa-icon icon="user-plus" [fixedWidth]="true"></fa-icon>
+              <span>Register</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
