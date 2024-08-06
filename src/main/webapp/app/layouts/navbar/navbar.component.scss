@@ -42,15 +42,40 @@ Logo styles
 }
 
 
-.message_time {
+.message-time {
+  min-height: 16px;
   font-size: 12px;
 }
 
-.content_group_chat {
+.content-group-chat {
+  min-height: 16px;
   overflow: hidden;
   height: 30px;
 }
 
 .notification_style {
-  padding-top: 1em; margin-bottom: 3px; cursor: pointer; border-top: 1px solid #5ca8e3
+  padding-top: 1em;
+  margin-bottom: 3px;
+  cursor: pointer;
+}
+
+.title_chat_style {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.search_chat_style {
+  height: 25px;
+  border-radius: 20px;
+}
+
+.wrapper-chat-content {
+  min-height: 16px;
+  margin: auto;
+}
+
+.chat_style {
+  padding-top: 0.5em;
+  margin-bottom: 3px;
+  cursor: pointer;
 }

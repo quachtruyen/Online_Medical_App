@@ -1,15 +1,10 @@
 package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.constant.AssignmentStatus;
-import com.mycompany.myapp.domain.Assignment;
-import com.mycompany.myapp.domain.Doctor;
-import com.mycompany.myapp.domain.Notification;
-import com.mycompany.myapp.domain.Patient;
-import com.mycompany.myapp.repository.AssignmentRepository;
-import com.mycompany.myapp.repository.DoctorRepository;
-import com.mycompany.myapp.repository.PatientRepository;
+import com.mycompany.myapp.domain.*;
+import com.mycompany.myapp.repository.*;
 import com.mycompany.myapp.service.dto.AssignmentDTO;
-import com.mycompany.myapp.service.dto.NotificationDTO;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -24,17 +19,21 @@ public class AssignmentService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
     private final AssignmentRepository assigmentRepository;
+    private final GroupUserRepository groupUserRepository;
+    private final GroupChatRepository groupChatRepository;
     private final NotificationService notificationService;
 
     public AssignmentService(
         PatientRepository patientRepository,
         DoctorRepository doctorRepository,
         AssignmentRepository assigmentRepository,
-        NotificationService notificationService
+        GroupUserRepository groupUserRepository, GroupChatRepository groupChatRepository, NotificationService notificationService
     ) {
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.assigmentRepository = assigmentRepository;
+        this.groupUserRepository = groupUserRepository;
+        this.groupChatRepository = groupChatRepository;
         this.notificationService = notificationService;
     }
 
@@ -66,6 +65,18 @@ public class AssignmentService {
         assignment.setPatientStatus(AssignmentStatus.ACCEPT);
 
         assignment = assigmentRepository.save(assignment);
+
+        GroupChat groupChat = new GroupChat();
+//        groupChat.setNameGroup();
+
+        groupChatRepository.save(groupChat);
+
+        GroupUser groupUser = new GroupUser();
+        groupUser.setIdUser(doctor.getId());
+        groupUser.setIdGroup(patient.getId());
+        groupUser.setCreateDate(Instant.now());
+
+        groupUser = groupUserRepository.save(groupUser);
 
         notificationService.createNotificationForAssignment(assignment);
     }

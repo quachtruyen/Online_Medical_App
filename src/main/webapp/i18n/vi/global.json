@@ -42,6 +42,9 @@
         "database": "Cơ sở dữ liệu",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
       },
+      "messageManagement": {
+        "searchChat.placeholder": "tìm kiếm đoạn chat"
+      },
       "language": "Ngôn ngữ",
       "healthStatus": "Cập nhật sức khỏe hiện tại",
 

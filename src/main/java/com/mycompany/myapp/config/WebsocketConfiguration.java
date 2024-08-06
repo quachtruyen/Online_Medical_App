@@ -29,7 +29,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic", "/user", "/notification");
+        config.enableSimpleBroker("/topic", "/user", "/notification", "/chat");
     }
 
     @Override

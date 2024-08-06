@@ -130,6 +130,12 @@ export class NavbarComponent implements OnInit {
     this.loadNotification();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // searchStatus = false;
+  // public searchGroupChat() {
+  //   this.searchStatus = !this.searchStatus;
+  // }
+
   public seeAll() {
     this.notificationService.markReadAll().subscribe(() => {
       this.loadNotification();

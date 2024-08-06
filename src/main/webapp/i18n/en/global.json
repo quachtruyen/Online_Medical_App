@@ -42,6 +42,9 @@
         "database": "Database",
         "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
       },
+      "messageManagement": {
+        "searchChat.placeholder": "search for messages"
+      },
       "language": "Language",
       "healthStatus": "Health status"
     },
@@ -67,11 +70,11 @@
       "firstname.required": "Your first name is required.",
       "firstname.minlength": "Your first name must be at least 1 character.",
       "firstname.maxlength": "Your first name cannot be longer than 100 characters.",
-      "firstname.pattern": "Your first name can only contain letters and numbers.",
+      "firstname.pattern": "Your first name can only contain letters",
       "lastname.required": "Your last name is required. ",
       "lastname.minlength": "Your last name must be at least 1 character.",
       "lastname.maxlength": "Your last name cannot be longer than 100 characters.",
-      "lastname.pattern": "Your last name can only contain letters and numbers."
+      "lastname.pattern": "Your last name can only contain letters"
     },
     "messages": {
       "info": {

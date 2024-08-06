@@ -36,7 +36,7 @@ export class RegisterComponent implements AfterViewInit {
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(50),
-        Validators.pattern('^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$'),
+        Validators.pattern('[^\\d]+'),
       ],
     ],
     phoneNumber: [
@@ -45,7 +45,7 @@ export class RegisterComponent implements AfterViewInit {
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(12),
-        Validators.pattern('^(?:\\+84|0)(?:9\\d|8\\d|7\\d|5\\d|3\\d)\\d{7}$'),
+        Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})'),
       ],
     ],
     lastName: [
@@ -54,7 +54,7 @@ export class RegisterComponent implements AfterViewInit {
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(50),
-        Validators.pattern('^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$'),
+        Validators.pattern('[^\\d]+'),
       ],
     ],
     email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],

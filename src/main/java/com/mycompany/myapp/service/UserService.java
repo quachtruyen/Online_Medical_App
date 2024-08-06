@@ -190,6 +190,10 @@ public class UserService {
                     // activate given user for the registration key.
                     user.setActivated(true);
                     user.setActivationKey(null);
+                    Patient patient = new Patient();
+                    patient.setUserId(user.getId());
+
+                    patientRepository.save(patient);
                     log.debug("Activated user: {}", user);
                     return user;
                 }
@@ -203,9 +207,13 @@ public class UserService {
             .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
             .map(
                 user -> {
+                    user.setActivated(true);
                     user.setPassword(passwordEncoder.encode(newPassword));
                     user.setResetKey(null);
                     user.setResetDate(null);
+                    Patient patient = new Patient();
+                    patient.setUserId(user.getId());
+                    patientRepository.save(patient);
                     return user;
                 }
             );
@@ -322,6 +330,11 @@ public class UserService {
      * @return updated user.
      */
     public Optional<UserInfoDTO> updateUser(UserInfoDTO userDTO) {
+        // Optional<User> userOPT = userRepository.findById(userDTO.getId();
+//        if (userOPT.isPresent()) {
+//            User user = userOPT.get();
+//
+//        }
         return Optional
             .of(userRepository.findById(userDTO.getId()))
             .filter(Optional::isPresent)

@@ -189,34 +189,60 @@
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="message-menu" data-cy="accountMenu">
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="message-menu" data-cy="messageMenu">
           <span>
             <fa-icon icon="comment"></fa-icon>
             <span jhiTranslate="global.menu.message">Message</span>
-            <span *ngIf="totalUnread > 0">( {{ totalUnread }} unread )</span>
+<!--            <span *ngIf="totalUnread > 0">( {{ totalUnread }} unread )</span>-->
           </span>
         </a>
         <ul
           class="dropdown-menu"
           ngbDropdownMenu
-          aria-labelledby="account-menu"
           style="min-width: 20em !important; padding: 1em !important; position: absolute; max-height: 500px; overflow: scroll"
         >
-          <button [ngClass]="this.currentStatus === '' ? 'btn-primary' : ''" class="btn" (click)="changeStatus('')">All</button>
-          <button [ngClass]="this.currentStatus === 'unread' ? 'btn-primary' : ''" class="btn" (click)="changeStatus('unread')">
-            Unread ({{ totalUnread }})
-          </button>
-          <button class="btn btn-dark float-right" (click)="seeAll()">Read all</button>
+<!--          <button [hidden]="searchStatus" [ngClass]="this.currentStatus === '' ? 'btn-primary' : ''"-->
+<!--                  class="btn" (click)="changeStatus('')">-->
+<!--            All-->
+<!--          </button>-->
+<!--          <button [hidden]="searchStatus" [ngClass]="this.currentStatus === 'unread' ? 'btn-primary' : ''"-->
+<!--                  class="btn" (click)="changeStatus('unread')">-->
+<!--            Unread-->
+<!--          </button>-->
+          <label class="title_chat_style" jhiTranslate="global.menu.message">
+            Tin nhắn
+          </label>
+          <input
+            type="text"
+            id="form_search"
+            class="search_chat_style form-control"
+            placeholder="{{ 'global.menu.messageManagement.searchChat.placeholder' | translate }}"
+          />
+<!--          <button class="btn" (click)="searchGroupChat()">-->
+<!--            <fa-icon icon="search"></fa-icon>-->
+<!--          </button>-->
           <li
-            (click)="seeOne(notification)"
-            *ngFor="let notification of notifications"
-            [ngClass]="notification.status === 'unread' ? 'unread-notification' : ''"
-            class="notification_style"
+            class="chat_style"
           >
             <div data-cy="settings">
               <span class="font-weight-bold text-primary">bệnh nhân</span>
-              <div class="content_group_chat">{{ notification.content }}</div>
-              <div class="message_time font-weight-light">5 phút</div>
+              <div class="wrapper-chat-content">
+                <span class="content-group-chat">content</span>
+                <span class="separator-dot">.</span>
+                <span class="message-time font-weight-light">5 phút</span>
+              </div>
+            </div>
+          </li>
+          <li
+            class="chat_style"
+          >
+            <div data-cy="settings">
+              <span [ngClass]="this.currentStatus === '' ? 'font-weight-bold' : ''" class="text-primary">bệnh nhân</span>
+              <div class="wrapper-chat-content">
+                <span class="content-group-chat">content</span>
+                <span class="separator-dot">.</span>
+                <span class="message-time font-weight-light">5 phút</span>
+              </div>
             </div>
           </li>
         </ul>
