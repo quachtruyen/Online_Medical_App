@@ -9,7 +9,7 @@
     <artifactId>OnlineMedical</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>F 0 At Home</name>
+    <name>Online Medical</name>
 
     <repositories>
         <!-- jhipster-needle-maven-repository -->
