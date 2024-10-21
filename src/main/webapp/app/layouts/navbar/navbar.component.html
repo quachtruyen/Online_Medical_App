@@ -64,7 +64,7 @@
           </li>
           <li>
             <a class="dropdown-item" routerLink="admin/post-management" routerLinkActive="active" (click)="collapseNavbar()">
-              <fa-icon [icon]="bbbb" [fixedWidth]="true"></fa-icon>
+              <fa-icon [icon]="faBacon" [fixedWidth]="true"></fa-icon>
               <span jhiTranslate="global.menu.postManagement">Post management</span>
             </a>
           </li>
@@ -193,7 +193,7 @@
           <span>
             <fa-icon icon="comment"></fa-icon>
             <span jhiTranslate="global.menu.message">Message</span>
-<!--            <span *ngIf="totalUnread > 0">( {{ totalUnread }} unread )</span>-->
+            <!--            <span *ngIf="totalUnread > 0">( {{ totalUnread }} unread )</span>-->
           </span>
         </a>
         <ul
@@ -201,29 +201,25 @@
           ngbDropdownMenu
           style="min-width: 20em !important; padding: 1em !important; position: absolute; max-height: 500px; overflow: scroll"
         >
-<!--          <button [hidden]="searchStatus" [ngClass]="this.currentStatus === '' ? 'btn-primary' : ''"-->
-<!--                  class="btn" (click)="changeStatus('')">-->
-<!--            All-->
-<!--          </button>-->
-<!--          <button [hidden]="searchStatus" [ngClass]="this.currentStatus === 'unread' ? 'btn-primary' : ''"-->
-<!--                  class="btn" (click)="changeStatus('unread')">-->
-<!--            Unread-->
-<!--          </button>-->
-          <label class="title_chat_style" jhiTranslate="global.menu.message">
-            Tin nhắn
-          </label>
+          <!--          <button [hidden]="searchStatus" [ngClass]="this.currentStatus === '' ? 'btn-primary' : ''"-->
+          <!--                  class="btn" (click)="changeStatus('')">-->
+          <!--            All-->
+          <!--          </button>-->
+          <!--          <button [hidden]="searchStatus" [ngClass]="this.currentStatus === 'unread' ? 'btn-primary' : ''"-->
+          <!--                  class="btn" (click)="changeStatus('unread')">-->
+          <!--            Unread-->
+          <!--          </button>-->
+          <label class="title_chat_style" jhiTranslate="global.menu.message"> Tin nhắn </label>
           <input
             type="text"
             id="form_search"
             class="search_chat_style form-control"
             placeholder="{{ 'global.menu.messageManagement.searchChat.placeholder' | translate }}"
           />
-<!--          <button class="btn" (click)="searchGroupChat()">-->
-<!--            <fa-icon icon="search"></fa-icon>-->
-<!--          </button>-->
-          <li
-            class="chat_style"
-          >
+          <!--          <button class="btn" (click)="searchGroupChat()">-->
+          <!--            <fa-icon icon="search"></fa-icon>-->
+          <!--          </button>-->
+          <li class="chat_style">
             <div data-cy="settings">
               <span class="font-weight-bold text-primary">bệnh nhân</span>
               <div class="wrapper-chat-content">
@@ -233,9 +229,7 @@
               </div>
             </div>
           </li>
-          <li
-            class="chat_style"
-          >
+          <li class="chat_style">
             <div data-cy="settings">
               <span [ngClass]="this.currentStatus === '' ? 'font-weight-bold' : ''" class="text-primary">bệnh nhân</span>
               <div class="wrapper-chat-content">

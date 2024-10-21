@@ -4,7 +4,6 @@ import com.mycompany.myapp.constant.AssignmentStatus;
 import com.mycompany.myapp.domain.*;
 import com.mycompany.myapp.repository.*;
 import com.mycompany.myapp.service.dto.AssignmentDTO;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -19,21 +18,23 @@ public class AssignmentService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
     private final AssignmentRepository assigmentRepository;
-    private final GroupUserRepository groupUserRepository;
-    private final GroupChatRepository groupChatRepository;
+    private final ConversationUserRepository conversationUserRepository;
+    private final ConversationRepository conversationRepository;
     private final NotificationService notificationService;
 
     public AssignmentService(
         PatientRepository patientRepository,
         DoctorRepository doctorRepository,
         AssignmentRepository assigmentRepository,
-        GroupUserRepository groupUserRepository, GroupChatRepository groupChatRepository, NotificationService notificationService
+        ConversationUserRepository conversationUserRepository,
+        ConversationRepository conversationRepository,
+        NotificationService notificationService
     ) {
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.assigmentRepository = assigmentRepository;
-        this.groupUserRepository = groupUserRepository;
-        this.groupChatRepository = groupChatRepository;
+        this.conversationUserRepository = conversationUserRepository;
+        this.conversationRepository = conversationRepository;
         this.notificationService = notificationService;
     }
 
@@ -66,17 +67,17 @@ public class AssignmentService {
 
         assignment = assigmentRepository.save(assignment);
 
-        GroupChat groupChat = new GroupChat();
-//        groupChat.setNameGroup();
+        Conversation conversation = new Conversation();
+        //        conversation.setNameGroup();
 
-        groupChatRepository.save(groupChat);
+        //        groupChatRepository.save(conversation);
 
-        GroupUser groupUser = new GroupUser();
-        groupUser.setIdUser(doctor.getId());
-        groupUser.setIdGroup(patient.getId());
-        groupUser.setCreateDate(Instant.now());
+        ConversationUser conversationUser = new ConversationUser();
+        conversationUser.setUserId(doctor.getId());
+        conversationUser.setConversationId(patient.getId());
+        conversationUser.setAddedAt(Instant.now());
 
-        groupUser = groupUserRepository.save(groupUser);
+        conversationUser = conversationUserRepository.save(conversationUser);
 
         notificationService.createNotificationForAssignment(assignment);
     }

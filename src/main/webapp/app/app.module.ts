@@ -32,6 +32,8 @@ import localeFr from '@angular/common/locales/fr';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { UpdateDailyHealthDialogComponent } from './daily-health-status/update-daily-health-status-dialog/update-daily-health-dialog.component';
+import { ConversationComponent } from './conversations/conversation/conversation.component';
+import { ConversationsComponent } from './conversations/conversations.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -74,6 +76,8 @@ registerLocaleData(localeFr);
     ActiveMenuDirective,
     FooterComponent,
     UpdateDailyHealthDialogComponent,
+    ConversationComponent,
+    ConversationsComponent,
   ],
   bootstrap: [MainComponent],
 })

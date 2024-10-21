@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit {
   isNavbarCollapsed = true;
   languages = LANGUAGES;
   fabook = faAddressBook;
-  bbbb = faBacon;
+  faBacon = faBacon;
   openAPIEnabled?: boolean;
   version = '';
   account: Account | null = null;

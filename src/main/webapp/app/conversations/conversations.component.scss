@@ -1,0 +1,19 @@
+.wrapper-conversations {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: row-reverse;
+
+  .wrapper-icon {
+    background: #3e8acc;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto 15px 15px 10px;
+  }
+}
