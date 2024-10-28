@@ -1,18 +1,41 @@
 <div class="wrapper-conversation">
   <div class="header">
-    <img class="image-style" src="content/images/avatar-chu-T.png" alt="avatar" />
-    <div class="info-user">
-      <p class="name-user">Quách Truyền</p>
-      <p class="status-user">đang hoạt động</p>
+    <div style="display: flex">
+      <img class="image-style" src="content/images/avatar-chu-T.png" alt="avatar" />
+      <div class="info-user">
+        <p class="name-user">Quách Truyền</p>
+        <p class="status-user">đang hoạt động</p>
+      </div>
+    </div>
+    <div class="right-header">
+      <div>
+        <i class="fa-solid fa-minus"></i>
+      </div>
+      <div>
+        <i class="fa-solid fa-xmark"></i>
+      </div>
     </div>
   </div>
   <div class="content">
-    <p>tin nhắn</p>
-    <p>tin nhắn</p>
-    <p>tin nhắn</p>
-    <p>tin nhắn</p>
-    <p>tin nhắn</p>
-    <p>tin nhắn</p>
+    <div class="wrapper-your-message">
+      <p>tin nhắn a â á ádas đá ád adasdasdasdsadasdas dá đá ád a</p>
+    </div>
+    <div class="wrapper-my-message">
+      <p>tin nhắn ádasd á á á adas đá ád ád ád á dá đá ád ád ád</p>
+    </div>
+    <p class="message-time">11:45 12 Tháng 10, 2024</p>
+    <div class="wrapper-your-message">
+      <p>tin nhắn</p>
+    </div>
+    <div class="wrapper-your-message">
+      <p>tin nhắn</p>
+    </div>
+    <div class="wrapper-my-message">
+      <p>tin nhắn a â á ádas đá ád adasdasdasdsadasdas dá đá ád a</p>
+    </div>
+    <div class="wrapper-my-message">
+      <p>tin nhắn</p>
+    </div>
     <p>tin nhắn</p>
     <p>tin nhắn</p>
     <p>tin nhắn</p>
@@ -32,6 +55,9 @@
     <p>tin nhắn</p>
   </div>
   <div class="footer">
-    <input />
+    <i class="fa-solid fa-microphone"></i>
+    <i class="fa-regular fa-images"></i>
+    <textarea class="messageInput" rows="1" placeholder="Aa" (input)="autoResize($event)"></textarea>
+    <i class="fa-solid fa-thumbs-up icon-like"></i>
   </div>
 </div>
